@@ -1,1 +1,1 @@
-In this repository i am looking to make a ai chatbot.
+In this repository i am having an idea to make a ai chatbot.
