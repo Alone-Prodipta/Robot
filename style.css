@@ -56,7 +56,7 @@ body {
     transition: background 0.2s ease;
 }
 
-.sidebar a:hover {
+.sidebar :hover {
     background: rgba(255, 255, 255, 0.08);
 }
 
@@ -110,7 +110,7 @@ body {
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
 }
-.option :hover
+button:hover
 {
     cursor: pointer;
     background-color: black;
@@ -124,6 +124,11 @@ input {
     border-radius: 4px;
     margin-right: 10px;
     border-style: none;
+}
+input:focus
+{
+    outline: none;
+    border: none;
 }
 
 button {

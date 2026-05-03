@@ -19,9 +19,7 @@ window.addEventListener('click', (event) => {
     sidebar.classList.remove('open');
   }
 });
-
-
-
+// adding the search history functionality
 
 let info= document.getElementById("text");
 let op= document.querySelector("nav");
@@ -37,17 +35,11 @@ function add()
     {
         let new_Element= document.createElement("ul");
         op.style.display="block";
-        // create checkbox (hidden by default) and a span for the text
-        let checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-     
-        checkbox.className = "task-checkbox hidden";
-
+        // create a span for the text
         let textSpan = document.createElement("span");
         textSpan.textContent = info.value;
 
-        // append checkbox and text to the new element
-        new_Element.appendChild(checkbox);
+        // append text to the new element
         new_Element.appendChild(textSpan);
         new_Element.style.display = "flex";
         new_Element.style.alignItems = "center";
@@ -63,77 +55,100 @@ function add()
         let option= document.querySelector("ul:last-child");
         option.addEventListener("click",(e)=>
         {
-            option.style.backgroundColor="yellow";
-            option.style.color="black";
-            // create delete button if it doesn't already exist
-            if(!option.querySelector(".delete-btn")) 
+            option.style.color="white";
+            if(!option.querySelector(".delete-btn") && !option.querySelector(".rename-btn")) 
             {
+                textSpan.style.flex = "1";
+
+                let renameBtn = document.createElement("button");
+                renameBtn.className = "rename-btn";
+                renameBtn.type = "button";
+                renameBtn.title = "Edit item";
+                renameBtn.style.marginLeft = "auto";
+                renameBtn.style.backgroundColor = "black";
+                renameBtn.style.fontFamily="Tagesschrift,serif";
+                renameBtn.style.color = "white";
+                renameBtn.style.border = "none";
+                renameBtn.style.padding = "6px 10px";
+                renameBtn.style.borderRadius = "5px";
+                renameBtn.style.cursor = "pointer";
+                renameBtn.style.display = "inline-flex";
+                renameBtn.style.alignItems = "center";
+                renameBtn.style.justifyContent = "center";
+
+                let renameIcon = document.createElement("i");
+                renameIcon.className = "fa fa-pencil";
+                renameIcon.style.fontSize = "16px";
+                renameBtn.appendChild(renameIcon);
+
                 let deleteBtn = document.createElement("button");
                 deleteBtn.className = "delete-btn";
-                deleteBtn.textContent = "Delete";
-                deleteBtn.style.marginLeft = "auto";
-                deleteBtn.style.backgroundColor = "red";
+                deleteBtn.type = "button";
+                deleteBtn.title = "Remove item";
+                deleteBtn.style.marginLeft = "8px";
+                deleteBtn.style.backgroundColor = "black";
                 deleteBtn.style.fontFamily="Tagesschrift,serif";
                 deleteBtn.style.color = "white";
                 deleteBtn.style.border = "none";
                 deleteBtn.style.padding = "6px 10px";
                 deleteBtn.style.borderRadius = "5px";
                 deleteBtn.style.cursor = "pointer";
+                deleteBtn.style.display = "inline-flex";
+                deleteBtn.style.alignItems = "center";
+                deleteBtn.style.justifyContent = "center";
 
-                // append button to the task row
+                let deleteIcon = document.createElement("i");
+                deleteIcon.className = "fa fa-trash";
+                deleteIcon.style.fontSize = "16px";
+                deleteBtn.appendChild(deleteIcon);
+
+                option.appendChild(renameBtn);
                 option.appendChild(deleteBtn);
 
-                // clicking the delete button removes the task
                 deleteBtn.addEventListener("click", (ev) => 
                 {
                     ev.stopPropagation();
-                    option.style.backgroundColor="yellow";
-                    option.style.color="black";
                     option.remove();
                 });
-            }
-            else
-            {
-                // toggle visibility if button already exists
-                const btn = option.querySelector(".delete-btn");
-                btn.style.display = (btn.style.display === "none" ? "inline-block" : "none");
-            }
-        });
-        option.addEventListener("mouseover",()=>
-        {
-            new_Element.style.backgroundColor="cyan";
-            new_Element.style.color="black";
-            // show checkbox on hover
-            checkbox.classList.remove("hidden");
-            
-        });
-        option.addEventListener("mouseout",()=>
-        {
-            new_Element.style.backgroundColor="transparent";
-            new_Element.style.color="white";
-            // hide checkbox when not checked
-            if(!checkbox.checked) checkbox.classList.add("hidden");
-        });
-        
-        // toggle completed style when checkbox changes
-        checkbox.addEventListener("change", () => 
-        {
-            if(checkbox.checked)
-            {
-                checkbox.classList.remove("hidden"); // keep visible when checked
-                textSpan.classList.add("completed");
 
-                option.addEventListener("mouseout",()=>
+                renameBtn.addEventListener("click", (ev) => 
                 {
-                    option.style.backgroundColor="yellow";
-                    option.style.color="black";
+                    ev.stopPropagation();
+                    let input = document.createElement("input");
+                    input.type = "text";
+                    input.value = textSpan.textContent;
+                    input.style.flex = "1";
+                    input.style.marginRight = "8px";
+                    input.style.padding = "6px 8px";
+                    input.style.borderRadius = "5px";
+                    input.style.border = "1px solid #ccc";
+                    input.style.fontFamily = "inherit";
+                    input.style.fontSize = "16px";
+
+                    const saveText = () => {
+                        const value = input.value.trim();
+                        if(value) textSpan.textContent = value;
+                        option.replaceChild(textSpan, input);
+                    };
+
+                    input.addEventListener("keydown", (keyEvent) => {
+                        if(keyEvent.key === "Enter") saveText();
+                        if(keyEvent.key === "Escape") option.replaceChild(textSpan, input);
+                    });
+
+                    input.addEventListener("blur", saveText);
+                    option.replaceChild(input, textSpan);
+                    input.focus();
                 });
             }
             else
             {
-                textSpan.classList.remove("completed");
+                const deleteBtn = option.querySelector(".delete-btn");
+                const renameBtn = option.querySelector(".rename-btn");
+                [deleteBtn, renameBtn].forEach((btn) => {
+                    if(btn) btn.style.display = btn.style.display === "none" ? "inline-flex" : "none";
+                });
             }
         });
-        
     }
 }
