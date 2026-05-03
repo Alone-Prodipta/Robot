@@ -22,8 +22,30 @@ window.addEventListener('click', (event) => {
 // adding the search history functionality
 
 let info= document.getElementById("text");
+let searchInput = document.getElementById("search");
 let op= document.querySelector("nav");
 op.style.display="none";
+
+// Search functionality with highlighting
+function highlightSearch() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    const taskSpans = document.querySelectorAll("nav ul span");
+
+    taskSpans.forEach(span => {
+        // Remove existing highlights
+        span.innerHTML = span.textContent;
+
+        if (searchTerm && span.textContent.toLowerCase().includes(searchTerm)) {
+            // Highlight matching text
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            span.innerHTML = span.textContent.replace(regex, '<mark>$1</mark>');
+        }
+    });
+}
+
+// Add search event listener
+searchInput.addEventListener('input', highlightSearch);
+
 function add()
 {
     if(info.value=="")
@@ -152,3 +174,13 @@ function add()
         });
     }
 }
+
+const searchBox = document.getElementById("search");
+    const items = document.querySelectorAll("ul");
+
+    searchBox.addEventListener("keyup", function() {
+      const query = this.value.toLowerCase();
+      items.forEach(item => {
+        item.classList.toggle("hidden", !item.textContent.toLowerCase().includes(query));
+      });
+    });
