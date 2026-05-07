@@ -1,7 +1,7 @@
 function addBotMessage(message) 
 {
     const messageRow = document.createElement("div");
-    messageRow.className = "chat-message chat-message-bot"; // Add CSS for bot styling
+    messageRow.className = "chat-message chat-message-bot"; 
     const messageBubble = document.createElement("div");
     messageBubble.className = "message-bubble";
     messageBubble.textContent = message;
