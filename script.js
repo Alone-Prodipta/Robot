@@ -48,15 +48,63 @@ function highlightSearch() {
 searchInput.addEventListener('input', highlightSearch);
 
 function add() {
+    // const message = info.value.trim();
+    // if (!message) {
+    //     alert("Enter a task");
+    //     return;
+    // }
+
+    // addNavMessage(message);
+    // addChatMessage(message);
+    // info.value = "";
+    // Replace your existing add() function with this
+async function add() {
     const message = info.value.trim();
-    if (!message) {
-        alert("Enter a task");
-        return;
-    }
+    if (!message) return;
 
     addNavMessage(message);
-    addChatMessage(message);
+    addChatMessage(message); // Display user message
     info.value = "";
+
+    try {
+        // Corrected filename to brain.php
+        const response = await fetch('brain.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message })
+        });
+
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const data = await response.json();
+        
+        // Extracting the text from the Gemini API response structure
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+            const aiReply = data.candidates[0].content.parts[0].text;
+            addBotMessage(aiReply);
+        } else {
+            console.error("Unexpected API response structure:", data);
+        }
+
+    } catch (error) {
+        console.error("AI Error:", error);
+    }
+}
+
+// Helper to show bot response in the chat area
+function addBotMessage(message) {
+    const messageRow = document.createElement("div");
+    messageRow.className = "chat-message chat-message-bot"; 
+    
+    const messageBubble = document.createElement("div");
+    messageBubble.className = "message-bubble";
+    messageBubble.style.backgroundColor = "#333"; // Different color for bot
+    messageBubble.textContent = message;
+    
+    messageRow.appendChild(messageBubble);
+    chatContainer.appendChild(messageRow);
+    chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll to bottom
+}
 }
 
 function addNavMessage(message) {
@@ -194,4 +242,4 @@ searchBox.addEventListener("keyup", function () {
     });
 });
 
-
+// Add this to your existing add() function in script.js
