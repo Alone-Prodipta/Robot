@@ -47,48 +47,6 @@ function highlightSearch() {
 // Add search event listener
 searchInput.addEventListener('input', highlightSearch);
 
-
-// async function add() {
-//     const message = info.value.trim();
-//     if (!message) return;
-
-//     // 1. Update UI immediately
-//     addNavMessage(message);
-//     addChatMessage(message); 
-//     info.value = "";
-
-//     try {
-//         // 2. Fetch the data from the backend
-//         const response = await fetch('brain.php', {
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({ message: message })
-//         });
-
-//         // 3. Verify the response is okay
-//         if (!response.ok) throw new Error('Network response was not ok');
-
-//         // 4. NOW parse the JSON (after response is defined)
-//         const data = await response.json();
-
-//         // 5. Handle the AI reply or errors from the API
-//         if (data.candidates && data.candidates[0].content.parts[0].text) {
-//             const aiReply = data.candidates[0].content.parts[0].text;
-//             addBotMessage(aiReply);
-//         } else if (data.error) {
-//             console.error("API Error:", data.error);
-//             addBotMessage("System Error: " + data.error.message);
-//         } else {
-//             console.error("Unexpected API response structure:", data);
-//         }
-
-//     } catch (error) {
-//         console.error("AI Error:", error);
-//         addBotMessage("Sorry, I'm having trouble connecting right now.");
-//     }
-// }
-
-// Helper to show bot response in the chat area
 function addBotMessage(message) {
     const messageRow = document.createElement("div");
     messageRow.className = "chat-message chat-message-bot";
@@ -240,14 +198,7 @@ searchBox.addEventListener("keyup", function () {
 });
 
 
-// Replace '.option' with the actual ID or class of your send button
-// const sendButton = document.querySelector('.option'); 
 
-// sendButton.addEventListener('click', () => {
-//     add();
-// });
-
-// Also allow pressing "Enter" to send
 info.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
         add();
@@ -257,7 +208,8 @@ info.addEventListener('keydown', (e) => {
 
 
 
-async function add() {
+async function add() 
+{
     const message = info.value.trim();
     if (!message) return;
 
@@ -266,7 +218,8 @@ async function add() {
     addChatMessage(message); 
     info.value = "";
 
-    try {
+    try 
+    {
         // 2. Fetch the data from the backend
         const response = await fetch('brain.php', {
             method: 'POST',

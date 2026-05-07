@@ -11,10 +11,11 @@ if (empty($userMessage)) {
 }
 
 // 1. Get your API Key from the system
-$apiKey = getenv('GEMINI_API_KEY'); 
-
+//$apiKey = getenv('GEMINI_API_KEY'); 
+$apiKey = 'AIzaSyAz2kico3Fg8p_7OexMDLY-GDlYtcIyC7Q'; 
 // 2. Prepare the API URL
-$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . $apiKey;
+// Use a more modern model alias
+$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" . $apiKey;
 
 // 3. Prepare the data payload
 $data = [
