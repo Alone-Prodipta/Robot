@@ -74,6 +74,17 @@ body {
     display: block;
     /* show only when sidebar is open */
 }
+.chat-message-bot {
+    display: flex;
+    justify-content: flex-start; /* Align AI to the left */
+    margin-bottom: 14px;
+}
+
+.chat-message-bot .message-bubble {
+    background-color: #333; /* Distinct color from user messages */
+    color: #00ff00; /* Matrix-style or cool-mint green */
+    border-radius: 18px 18px 18px 0px;
+}
 #user
 {
     left: 90%;

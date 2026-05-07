@@ -47,65 +47,62 @@ function highlightSearch() {
 // Add search event listener
 searchInput.addEventListener('input', highlightSearch);
 
-function add() {
-    // const message = info.value.trim();
-    // if (!message) {
-    //     alert("Enter a task");
-    //     return;
-    // }
 
-    // addNavMessage(message);
-    // addChatMessage(message);
-    // info.value = "";
-    // Replace your existing add() function with this
-async function add() {
-    const message = info.value.trim();
-    if (!message) return;
+// async function add() {
+//     const message = info.value.trim();
+//     if (!message) return;
 
-    addNavMessage(message);
-    addChatMessage(message); // Display user message
-    info.value = "";
+//     // 1. Update UI immediately
+//     addNavMessage(message);
+//     addChatMessage(message); 
+//     info.value = "";
 
-    try {
-        // Corrected filename to brain.php
-        const response = await fetch('brain.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: message })
-        });
+//     try {
+//         // 2. Fetch the data from the backend
+//         const response = await fetch('brain.php', {
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({ message: message })
+//         });
 
-        if (!response.ok) throw new Error('Network response was not ok');
+//         // 3. Verify the response is okay
+//         if (!response.ok) throw new Error('Network response was not ok');
 
-        const data = await response.json();
-        
-        // Extracting the text from the Gemini API response structure
-        if (data.candidates && data.candidates[0].content.parts[0].text) {
-            const aiReply = data.candidates[0].content.parts[0].text;
-            addBotMessage(aiReply);
-        } else {
-            console.error("Unexpected API response structure:", data);
-        }
+//         // 4. NOW parse the JSON (after response is defined)
+//         const data = await response.json();
 
-    } catch (error) {
-        console.error("AI Error:", error);
-    }
-}
+//         // 5. Handle the AI reply or errors from the API
+//         if (data.candidates && data.candidates[0].content.parts[0].text) {
+//             const aiReply = data.candidates[0].content.parts[0].text;
+//             addBotMessage(aiReply);
+//         } else if (data.error) {
+//             console.error("API Error:", data.error);
+//             addBotMessage("System Error: " + data.error.message);
+//         } else {
+//             console.error("Unexpected API response structure:", data);
+//         }
+
+//     } catch (error) {
+//         console.error("AI Error:", error);
+//         addBotMessage("Sorry, I'm having trouble connecting right now.");
+//     }
+// }
 
 // Helper to show bot response in the chat area
 function addBotMessage(message) {
     const messageRow = document.createElement("div");
-    messageRow.className = "chat-message chat-message-bot"; 
-    
+    messageRow.className = "chat-message chat-message-bot";
+
     const messageBubble = document.createElement("div");
     messageBubble.className = "message-bubble";
     messageBubble.style.backgroundColor = "#333"; // Different color for bot
     messageBubble.textContent = message;
-    
+
     messageRow.appendChild(messageBubble);
     chatContainer.appendChild(messageRow);
     chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll to bottom
 }
-}
+
 
 function addNavMessage(message) {
     op.style.display = "block";
@@ -242,4 +239,61 @@ searchBox.addEventListener("keyup", function () {
     });
 });
 
-// Add this to your existing add() function in script.js
+
+// Replace '.option' with the actual ID or class of your send button
+// const sendButton = document.querySelector('.option'); 
+
+// sendButton.addEventListener('click', () => {
+//     add();
+// });
+
+// Also allow pressing "Enter" to send
+info.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        add();
+    }
+});
+
+
+
+
+async function add() {
+    const message = info.value.trim();
+    if (!message) return;
+
+    // 1. Update UI immediately
+    addNavMessage(message);
+    addChatMessage(message); 
+    info.value = "";
+
+    try {
+        // 2. Fetch the data from the backend
+        const response = await fetch('brain.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message })
+        });
+
+        // 3. Verify the response is okay
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        // 4. NOW parse the JSON (after response is defined)
+        const data = await response.json();
+
+        // 5. Handle the AI reply or errors from the API
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+            const aiReply = data.candidates[0].content.parts[0].text;
+            addBotMessage(aiReply);
+        } else if (data.error) {
+            console.error("API Error:", data.error);
+            addBotMessage("System Error: " + data.error.message);
+        } else {
+            console.error("Unexpected API response structure:", data);
+        }
+
+    } catch (error) {
+        console.error("AI Error:", error);
+        addBotMessage("Sorry, I'm having trouble connecting right now.");
+    }
+}
+
