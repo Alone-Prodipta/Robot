@@ -15,7 +15,8 @@ window.addEventListener('click', (event) => {
         sidebar.classList.contains('open') &&
         !sidebar.contains(event.target) &&
         !openSidebar.contains(event.target)
-    ) {
+    ) 
+    {
         sidebar.classList.remove('open');
     }
 });
@@ -28,7 +29,8 @@ let chatContainer = document.querySelector(".chat");
 op.style.display = "none";
 
 // Search functionality with highlighting
-function highlightSearch() {
+function highlightSearch() 
+{
     const searchTerm = searchInput.value.toLowerCase().trim();
     const taskSpans = document.querySelectorAll("nav ul span");
 
@@ -36,7 +38,8 @@ function highlightSearch() {
         // Remove existing highlights
         span.innerHTML = span.textContent;
 
-        if (searchTerm && span.textContent.toLowerCase().includes(searchTerm)) {
+        if (searchTerm && span.textContent.toLowerCase().includes(searchTerm)) 
+        {
             // Highlight matching text
             const regex = new RegExp(`(${searchTerm})`, 'gi');
             span.innerHTML = span.textContent.replace(regex, '<mark>$1</mark>');
@@ -47,7 +50,8 @@ function highlightSearch() {
 // Add search event listener
 searchInput.addEventListener('input', highlightSearch);
 
-function addBotMessage(message) {
+function addBotMessage(message) 
+{
     const messageRow = document.createElement("div");
     messageRow.className = "chat-message chat-message-bot";
 

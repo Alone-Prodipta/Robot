@@ -1,7 +1,5 @@
-
-
-// Helper to show bot response
-function addBotMessage(message) {
+function addBotMessage(message) 
+{
     const messageRow = document.createElement("div");
     messageRow.className = "chat-message chat-message-bot"; // Add CSS for bot styling
     const messageBubble = document.createElement("div");
@@ -16,13 +14,17 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-async function chat() {
+async function chat() 
+{
   const prompt = "Hello Gemini! I'm building a chatboard. Are you connected?";
   
-  try {
+  try 
+  {
     const result = await model.generateContent(prompt);
     console.log("Gemini says: " + result.response.text());
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error("Connection failed. Check if your API key is active.");
   }
 }
