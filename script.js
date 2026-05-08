@@ -1,7 +1,7 @@
 const sidebar = document.getElementById('sidebar');
 const openSidebar = document.getElementById('openSidebar');
 const closeSidebar = document.getElementById('closeSidebar');
-
+const welcome= document.getElementById('welcome_text');
 openSidebar.addEventListener('click', () => {
     sidebar.classList.add('open');
 });
@@ -209,7 +209,13 @@ info.addEventListener('keydown', (e) => {
     }
 });
 
-
+// Hide welcome text when input field is clicked
+info.addEventListener('focus', () => {
+    welcome.style.display = "none";
+});
+info.addEventListener('focusout',()=>{
+    welcome.style.display= "block";
+})
 
 
 async function add() 

@@ -233,7 +233,12 @@ input:focus,
     outline: none;
     border: none;
 }
-
+#welcome_text
+{
+    line-height: 120px;
+    font-size: 60px;
+    text-align:justify;
+}
 button {
     padding: 10px 16px;
     font-size: 16px;
