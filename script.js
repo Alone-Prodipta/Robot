@@ -4,6 +4,7 @@ const closeSidebar = document.getElementById('closeSidebar');
 const welcome= document.getElementById('welcome_text');
 openSidebar.addEventListener('click', () => {
     sidebar.classList.add('open');
+    openSidebar.style.display="none";
 });
 
 closeSidebar.addEventListener('click', () => {
