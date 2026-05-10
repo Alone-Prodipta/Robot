@@ -311,27 +311,27 @@ op.style.display = "none";
    ========================================= */
 function highlightSearch() {
     const searchTerm = searchInput.value.toLowerCase().trim();
-    const taskSpans = document.querySelectorAll("nav ul span");
+    const items = document.querySelectorAll("nav .sidebar-item");
 
-    taskSpans.forEach(span => {
-        span.innerHTML = span.textContent;
-        if (searchTerm && span.textContent.toLowerCase().includes(searchTerm)) {
-            const regex = new RegExp(`(${searchTerm})`, 'gi');
-            span.innerHTML = span.textContent.replace(regex, '<mark>$1</mark>');
+    items.forEach(item => {
+        const textSpan = item.querySelector(".sidebar-text");
+        const text = textSpan ? textSpan.textContent.toLowerCase() : "";
+        const matches = text.includes(searchTerm);
+
+        item.style.display = searchTerm && !matches ? "none" : "flex";
+
+        if (textSpan) {
+            textSpan.innerHTML = textSpan.textContent;
+            if (searchTerm && matches) {
+                const escaped = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                const regex = new RegExp(`(${escaped})`, 'gi');
+                textSpan.innerHTML = textSpan.textContent.replace(regex, '<mark>$1</mark>');
+            }
         }
     });
 }
 
 searchInput.addEventListener('input', highlightSearch);
-
-const searchBox = document.getElementById("search");
-searchBox.addEventListener("keyup", function () {
-    const query = this.value.toLowerCase();
-    const items = document.querySelectorAll("nav ul");
-    items.forEach(item => {
-        item.classList.toggle("hidden", !item.textContent.toLowerCase().includes(query));
-    });
-});
 
 /* =========================================
    MESSAGE DISPLAY FUNCTIONS
