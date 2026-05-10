@@ -181,23 +181,6 @@ body {
     font-weight: bold;
     padding-left: 10px;
 }
-
-.theme {
-
-    right: 80px;
-    background: black;
-    border: none;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 20px;
-    margin: 5px;
-}
-
-.theme>i {
-    color: white;
-}
-
 .container {
     width: min(100%, 860px);
     border-radius: 16px;
@@ -278,7 +261,7 @@ button {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    margin: 0;
+    margin-top: 50px;
     box-sizing: border-box;
 }
 
