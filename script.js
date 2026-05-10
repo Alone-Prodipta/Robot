@@ -9,6 +9,7 @@ openSidebar.addEventListener('click', () => {
 
 closeSidebar.addEventListener('click', () => {
     sidebar.classList.remove('open');
+    openSidebar.style.display="block";
 });
 
 window.addEventListener('click', (event) => {
