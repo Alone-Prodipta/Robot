@@ -310,6 +310,8 @@ let op = document.querySelector("nav");
 let chatContainer = document.querySelector(".chat");
 op.style.display = "none";
 
+let conversationStarted = false;
+
 // Search functionality with highlighting
 function highlightSearch() {
     const searchTerm = searchInput.value.toLowerCase().trim();
@@ -485,21 +487,33 @@ info.addEventListener('keydown', (e) => {
     }
 });
 
-// Hide welcome text when input field is clicked
+// Hide welcome text when input field is focused or when typing starts
 info.addEventListener('focus', () => {
     welcome.style.display = "none";
 });
+
+info.addEventListener('input', () => {
+    welcome.style.display = "none";
+});
+
 info.addEventListener('focusout', () => {
-    welcome.style.visibility = "hidden";
+    if (!conversationStarted && info.value.trim() === "") {
+        welcome.style.display = "block";
+    }
 });
 
 async function add() {
     const message = info.value.trim();
     if (!message) return;
 
+    conversationStarted = true;
+    welcome.style.display = "none";
+
     // --- NEW: INTERCEPT IMAGE REQUESTS ---
     const lowerMessage = message.toLowerCase();
     if (lowerMessage.includes("draw") || lowerMessage.includes("image")) {
+        conversationStarted = true;
+        welcome.style.display = "none";
         addNavMessage(message);
         addChatMessage(message);
         generateImage(message); // Call image function
@@ -541,8 +555,8 @@ async function add() {
 
 function generateImage(prompt) {
     // Generate a unique URL for the prompt
-    const url = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?width=1080&height=1080&nologo=true`;
-
+    //const url = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?width=1080&height=1080&nologo=true`;
+    const url = `https://loremflickr.com/1080/1080/${encodeURIComponent(prompt)}`;
     const messageRow = document.createElement("div");
     messageRow.className = "chat-message chat-message-bot";
 
