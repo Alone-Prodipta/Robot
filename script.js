@@ -272,7 +272,7 @@
 //             <img src="${url}" style="width:100%; border-radius:12px; border: 1px solid #ddd; margin-top:10px;" 
 //                  onload="this.parentElement.scrollIntoView({behavior: 'smooth'})">
 //         </div>`;
-    
+
 //     chatWindow.innerHTML += botHTML;
 // }
 /* =========================================
@@ -350,24 +350,68 @@ function addBotMessage(message) {
 
 function addNavMessage(message) {
     op.style.display = "block";
-    let new_Element = document.createElement("ul");
-    let textSpan = document.createElement("span");
+
+    const item = document.createElement("div");
+    item.className = "sidebar-item";
+
+    const textSpan = document.createElement("span");
+    textSpan.className = "sidebar-text";
     textSpan.textContent = message;
-    new_Element.appendChild(textSpan);
-    new_Element.style.display = "flex";
-    new_Element.style.alignItems = "center";
-    op.appendChild(new_Element);
-    new_Element.style.backgroundColor = "transparent";
-    new_Element.style.color = "white";
-    new_Element.style.padding = "10px";
-    new_Element.style.fontFamily = "David libre, cursive";
-    new_Element.style.borderRadius = "10px";
-    
-    // Sidebar interaction logic (Delete/Rename)
-    new_Element.addEventListener("click", (e) => {
-        if (!new_Element.querySelector(".delete-btn")) {
-            // ... (Sidebar Edit Logic)
-        }
+    item.appendChild(textSpan);
+
+    const actions = document.createElement("div");
+    actions.className = "sidebar-actions";
+
+    const editBtn = document.createElement("button");
+    editBtn.type = "button";
+    editBtn.className = "sidebar-btn edit-btn";
+    editBtn.title = "Edit item";
+    editBtn.innerHTML = '<i class="fa fa-pencil"></i>';
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.className = "sidebar-btn delete-btn";
+    deleteBtn.title = "Delete item";
+    deleteBtn.innerHTML = '<i class="fa fa-trash"></i>';
+
+    actions.appendChild(editBtn);
+    actions.appendChild(deleteBtn);
+    item.appendChild(actions);
+    op.appendChild(item);
+
+    deleteBtn.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        item.remove();
+    });
+
+    editBtn.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        const currentText = textSpan.textContent;
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = currentText;
+        input.className = "sidebar-edit";
+
+        const finishEdit = () => {
+            const newValue = input.value.trim();
+            if (newValue) {
+                textSpan.textContent = newValue;
+            }
+            item.replaceChild(textSpan, input);
+        };
+
+        input.addEventListener("keydown", (keyEvent) => {
+            if (keyEvent.key === "Enter") {
+                finishEdit();
+            }
+            if (keyEvent.key === "Escape") {
+                item.replaceChild(textSpan, input);
+            }
+        });
+
+        input.addEventListener("blur", finishEdit);
+        item.replaceChild(input, textSpan);
+        input.focus();
     });
 }
 
